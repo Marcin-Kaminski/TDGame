@@ -23,11 +23,11 @@ public class Render {
                 game.getMenu().render(g);
                 break;
             case SETTINGS:
-                game.getPlaying().render(g);
+                game.getSettings().render(g);
 
                 break;
             case PLAYING:
-                game.getSettings().render(g);
+                game.getPlaying().render(g);
 
                 break;
         }

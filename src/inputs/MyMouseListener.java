@@ -1,6 +1,7 @@
 package inputs;
 
 import main.Game;
+import main.GameStates;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,18 +18,59 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1) {
-            System.out.println("Mouse pos: " + e.getX() + ", " + e.getY());
+          switch (GameStates.gameState) {
+            case MENU:
+              game.getMenu().mouseClicked(e.getX(), e.getY());
+
+              break;
+            case PLAYING:
+              game.getPlaying().mouseClicked(e.getX(), e.getY());
+
+              break;
+            case SETTINGS:
+
+              break;
+            default:
+              break;
+          }
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+      switch (GameStates.gameState) {
+        case MENU:
+          game.getMenu().mousePressed(e.getX(), e.getY());
+          break;
+        case PLAYING:
+          game.getPlaying().mousePressed(e.getX(), e.getY());
 
+          break;
+        case SETTINGS:
+
+          break;
+        default:
+          break;
+      }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+      switch (GameStates.gameState) {
+        case MENU:
+          game.getMenu().mouseReleased(e.getX(), e.getY());
 
+          break;
+        case PLAYING:
+          game.getPlaying().mouseReleased(e.getX(), e.getY());
+
+          break;
+        case SETTINGS:
+
+          break;
+        default:
+          break;
+      }
     }
 
     @Override
@@ -48,6 +90,21 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+      switch (GameStates.gameState) {
+        case MENU:
+          game.getMenu().mouseMoved(e.getX(), e.getY());
 
+          break;
+        case PLAYING:
+          game.getPlaying().mouseMoved(e.getX(), e.getY());
+
+
+          break;
+        case SETTINGS:
+
+          break;
+        default:
+          break;
+      }
     }
 }
