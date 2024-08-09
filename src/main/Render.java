@@ -17,7 +17,7 @@ public class Render {
     }
 
     public void render(Graphics g) {
-        switch (GameStates.gameStates) {
+        switch (GameStates.gameState) {
 
             case MENU:
                 game.getMenu().render(g);
