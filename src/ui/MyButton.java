@@ -6,10 +6,7 @@ import java.awt.*;
 
 public class MyButton {
 
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+     public int x, y, width, height, id;
     private String text;
 
     private Rectangle bounds;
@@ -21,9 +18,22 @@ public class MyButton {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.id = -1;
 
         initBounds();
     }
+
+    public MyButton(String text, int x, int y, int width, int height, int id) {
+        this.text = text;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.id = id;
+
+        initBounds();
+    }
+
 
     public void draw(Graphics g) {
 
@@ -81,5 +91,9 @@ public class MyButton {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public int getId() {
+        return id;
     }
 }
