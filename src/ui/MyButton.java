@@ -96,4 +96,12 @@ public class MyButton {
     public int getId() {
         return id;
     }
+
+    public boolean isMouseOver() {
+        return mouseOver;
+    }
+
+    public boolean isMousePressed() {
+        return mousePressed;
+    }
 }

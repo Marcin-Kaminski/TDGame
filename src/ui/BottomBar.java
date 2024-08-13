@@ -59,7 +59,25 @@ public class BottomBar {
 
     private void drawTileButtons(Graphics g) {
         for (MyButton button : tileButtons) {
+
+            //sprites
             g.drawImage(getButtonImg(button.getId()), button.x, button.y, button.width, button.height, null);
+
+            // MouseOver
+            if(button.isMouseOver()) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.BLACK);
+            }
+
+            // Border
+            g.drawRect(button.x, button.y, button.width, button.height);
+
+            // mousePressed
+            if (button.isMousePressed()) {
+                g.drawRect(button.x + 1, button.y + 1, button.width - 2, button.height - 2);
+                g.drawRect(button.x + 2, button.y + 2, button.width - 4, button.height - 4);
+            }
         }
     }
 
@@ -75,19 +93,40 @@ public class BottomBar {
 
     public void mouseMoved(int x, int y) {
         buttonMenu.setMouseOver(false);
+        for (MyButton button : tileButtons) {
+            button.setMouseOver(false);
+        }
+
         if (buttonMenu.getBounds().contains(x, y)) {
             buttonMenu.setMouseOver(true);
+        } else {
+            for (MyButton button : tileButtons) {
+                if (button.getBounds().contains(x, y)) {
+                    button.setMouseOver(true);
+                    return;
+                }
+            }
         }
     }
 
     public void mousePressed(int x, int y) {
-        if (buttonMenu.getBounds().contains(x, y))
+        if (buttonMenu.getBounds().contains(x, y)) {
             buttonMenu.setMousePressed(true);
+        } else {
+            for (MyButton button : tileButtons) {
+                if (buttonMenu.getBounds().contains(x, y)) {
+                    button.setMousePressed(true);
+                    return;
+                }
+            }
+        }
 
     }
 
     public void mouseReleased(int x, int y) {
         buttonMenu.resetBooleans();
-
+        for (MyButton button : tileButtons) {
+            button.resetBooleans();
+        }
     }
 }
