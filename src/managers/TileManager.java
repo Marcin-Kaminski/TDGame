@@ -28,6 +28,11 @@ public class TileManager {
     private void loadAtlas() {
         spriteAtlas = LoadSave.getSpriteAtlas();
     }
+
+    public Tile getTile(int id) {
+        return tiles.get(id);
+    }
+
     public BufferedImage getSprites(int id) {
         return tiles.get(id).getSprite();
     }
