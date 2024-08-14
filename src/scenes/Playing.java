@@ -1,6 +1,7 @@
 package scenes;
 
 import helperMethods.LevelBuilder;
+import helperMethods.LoadSave;
 import main.Game;
 import managers.TileManager;
 import objects.Tile;
@@ -29,6 +30,17 @@ public class Playing extends GameScene implements SceneMethods {
         lvl = LevelBuilder.getLevelData();
         tileManager = new TileManager();
         bottomBar = new BottomBar(0, 640, 640, 100, this);
+
+        createDefaultLevel();
+    }
+
+    private void createDefaultLevel() {
+        int[] arr = new int[400];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
+        }
+
+        LoadSave.CreateLevel("new level", arr);
     }
 
     public TileManager getTileManager() {
