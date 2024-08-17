@@ -1,12 +1,6 @@
 package main;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Render {
 
@@ -22,12 +16,18 @@ public class Render {
             case MENU:
                 game.getMenu().render(g);
                 break;
+
             case SETTINGS:
                 game.getSettings().render(g);
 
                 break;
             case PLAYING:
                 game.getPlaying().render(g);
+
+                break;
+
+            case EDIT:
+                game.getEditing().render(g);
 
                 break;
         }

@@ -1,16 +1,13 @@
 package main;
 
-import inputs.KeyboardListener;
-import inputs.MyMouseListener;
+import helperMethods.LoadSave;
+import managers.TileManager;
+import scenes.Editing;
 import scenes.Menu;
 import scenes.Playing;
 import scenes.Settings;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Game extends JFrame implements Runnable {
 
@@ -24,25 +21,40 @@ public class Game extends JFrame implements Runnable {
     private Menu menu;
     private Settings settings;
     private Playing playing;
+    private Editing editing;
+    private TileManager tileManager;
 
     public Game() {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        setResizable(false);
         initClasses();
+        createDefaultLevel();
+
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(gameScreen);
+        setResizable(false);
         pack();
 
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+    private void createDefaultLevel() {
+        int[] arr = new int[400];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
+        }
+
+        LoadSave.CreateLevel("new_level", arr);
+    }
+
     private void initClasses() {
+        tileManager = new TileManager();
         gameScreen = new GameScreen(this);
         render = new Render(this);
         menu = new Menu(this);
         settings = new Settings(this);
         playing = new Playing(this);
+        editing = new Editing(this);
     }
 
 
@@ -50,11 +62,6 @@ public class Game extends JFrame implements Runnable {
         gameThread = new Thread(this) {};
         gameThread.start();
      }
-
-    private void updateGame() {
-//        System.out.println("Game Updated");
-    }
-
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -88,7 +95,6 @@ public class Game extends JFrame implements Runnable {
 
             // Update
             if (now - lastUpdate >= timePerUpdate) {
-                updateGame();
                 lastUpdate = now;
                 updates++;
             }
@@ -119,4 +125,11 @@ public class Game extends JFrame implements Runnable {
         return playing;
     }
 
+    public Editing getEditing() {
+        return editing;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
+    }
 }

@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class LoadSave {
@@ -51,7 +53,6 @@ public class LoadSave {
     }
 
     private static void WriteToFile(File f, int[] idArray) {
-
         try {
             PrintWriter printWriter = new PrintWriter(f);
             for (Integer i : idArray) {
@@ -63,17 +64,47 @@ public class LoadSave {
             e.printStackTrace();
         }
     }
-    public static void ReadFromFile() {
-        File txtFile = new File("res/testTextFile.txt");
+
+    public static void SaveLevel(String name, int[][] idArray) {
+        File levelFile = new File("res/" + name + ".txt");
+
+        if (levelFile.exists()) {
+            WriteToFile(levelFile, Utilities.TwoDTo1DArray(idArray));
+
+        } else {
+            System.out.println("File: " + name + " does not exists! ");
+            return;
+        }
+    }
+
+    private static ArrayList<Integer> ReadFromFile(File file) {
+        ArrayList<Integer> list = new ArrayList<>();
+
         try {
-            Scanner scanner = new Scanner(txtFile);
+            Scanner scanner = new Scanner(file);
+
             while (scanner.hasNextLine()) {
-                  System.out.println(scanner.nextLine());
+                  list.add(Integer.parseInt(scanner.nextLine()));
             }
 
             scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static int[][] GetLevelData(String name) {
+        File lvlFile = new File("res/" + name + ".txt");
+
+        if (lvlFile.exists()) {
+            ArrayList<Integer> list = ReadFromFile(lvlFile);
+            return Utilities.ArrayListTo2Dint(list, 20, 20);
+
+        } else {
+            System.out.println("File: " + name + " does not exist!");
+            return null;
         }
     }
 
