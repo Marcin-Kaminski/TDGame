@@ -31,6 +31,10 @@ public class Playing extends GameScene implements SceneMethods {
         bottomBar.draw(g);
     }
 
+    public void setLevel(int[][] lvl) {
+        this.lvl = lvl;
+    }
+
     private void DrawLevel(Graphics g) {
         for (int y = 0; y < lvl.length; y++) {
             for (int x = 0; x < lvl[y].length; x++) {
