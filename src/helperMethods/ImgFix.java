@@ -58,4 +58,27 @@ public class ImgFix {
 
         return newImg;
     }
+
+    // Rotate second img only + animation
+    public static BufferedImage[] getBuildRotatedImg(BufferedImage[] imgs, BufferedImage secondImage, int rotAngle) {
+        int width = imgs[0].getWidth();
+        int height = imgs[0].getHeight();
+
+        BufferedImage[] arr = new BufferedImage[imgs.length];
+
+        for (int i = 0; i < imgs.length; i++) {
+            BufferedImage newImg = new BufferedImage(width, height, imgs[0].getType());
+            Graphics2D g2d = newImg.createGraphics();
+
+            g2d.drawImage(imgs[i], 0, 0, null);
+            g2d.rotate(Math.toRadians(rotAngle), width / 2, height / 2);
+            g2d.drawImage(secondImage, 0, 0, null);
+            g2d.dispose();
+
+            arr[i] = newImg;
+
+        }
+
+        return arr;
+    }
 }
