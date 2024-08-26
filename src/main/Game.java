@@ -61,7 +61,24 @@ public class Game extends JFrame implements Runnable {
     private void start() {
         gameThread = new Thread(this) {};
         gameThread.start();
-     }
+    }
+
+    public void updateGame() {
+        switch (GameStates.gameState) {
+            case PLAYING:
+                playing.update();
+                break;
+            case MENU:
+                break;
+            case SETTINGS:
+                break;
+            case EDIT:
+                break;
+            default:
+                break;
+        }
+
+    }
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -97,6 +114,7 @@ public class Game extends JFrame implements Runnable {
             if (now - lastUpdate >= timePerUpdate) {
                 lastUpdate = now;
                 updates++;
+                updateGame();
             }
 
             // check UPS and FPS
