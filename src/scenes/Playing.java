@@ -43,17 +43,23 @@ public class Playing extends GameScene implements SceneMethods {
         for (int y = 0; y < lvl.length; y++) {
             for (int x = 0; x < lvl[y].length; x++) {
                 int id = lvl[y][x];
-                g.drawImage(getSprite(id), x * 32, y * 32, null);
+                if (isAnimation(id)) {
+                    g.drawImage(getAnimatedSprite(id, animationIndex), x * 32, y * 32, null);
+                } else {
+                    g.drawImage(getSprite(id), x * 32, y * 32, null);
+                };
             }
         }
     }
 
-    private BufferedImage getSprite(int spriteId) {
-        return game.getTileManager().getSprites(spriteId);
+    public void update() {
+        updateTick();
+        enemyManager.update();
     }
 
-    public void update() {
-        enemyManager.update();
+    public int getTileType(int x, int y) {
+        int id = lvl[y / 32][x / 32];
+        return game.getTileManager().getTile(id).getTileType();
     }
 
     @Override
