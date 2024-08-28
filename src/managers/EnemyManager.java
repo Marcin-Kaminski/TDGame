@@ -53,6 +53,13 @@ public class EnemyManager {
 
     private void setNewDirectionAndMove(Enemy e) {
         int dir = e.getLastDir();
+
+        // move into the current tile till 100%
+        int xCord = (int)(e.getX()) / 32;
+        int yCord = (int)(e.getY()) / 32;
+
+        fixEnemyOffsetTile(e,dir, xCord, yCord);
+
         if (dir == LEFT || dir == RIGHT) {
             int newY = (int)(e.getY() + getSpeedAndHeight(UP));
             if (getTileType((int) e.getX(), newY) == ROAD_TILE) {
@@ -68,6 +75,32 @@ public class EnemyManager {
                 e.move(speed, DOWN);
             }
         }
+    }
+
+    private void fixEnemyOffsetTile(Enemy e, int dir, int xCord, int yCord) {
+        switch (dir) {
+//            case LEFT:
+//                if (xCord > 0) {
+//                    xCord--;
+//                }
+//                break;
+//            case UP:
+//                if (yCord > 0) {
+//                    yCord--;
+//                }
+//                break;
+            case RIGHT:
+                if (yCord < 19) {
+                    xCord++;
+                }
+                break;
+            case DOWN:
+                if (yCord < 19) {
+                    yCord++;
+                }
+                break;
+        }
+        e.setPos(xCord * 32, yCord * 32);
     }
 
     private boolean isAtEnd(Enemy e) {

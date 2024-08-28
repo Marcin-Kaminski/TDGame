@@ -39,6 +39,12 @@ public class Enemy {
         }
     }
 
+    public void setPos(int x, int y) {
+        // Don't use for move, this is for position fix
+        this.x = x;
+        this.y = y;
+    }
+
     public float getX() {
         return x;
     }
