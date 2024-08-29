@@ -1,6 +1,6 @@
 package managers;
 
-import enemies.Enemy;
+import enemies.*;
 import helperMethods.LoadSave;
 import scenes.Playing;
 
@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import static helperMethods.Constants.Direction.*;
+import static helperMethods.Constants.Enemies.*;
 import static helperMethods.Constants.Tiles.*;
 
 public class EnemyManager {
@@ -20,21 +21,24 @@ public class EnemyManager {
     public EnemyManager(Playing playing) {
         this.playing = playing;
         enemyImgs = new BufferedImage[4];
-        addEnemy(3 * 32, 8 * 32);
+        addEnemy(0 * 32, 17 * 32, ORC);
+        addEnemy(1 * 32, 17 * 32, BAT);
+        addEnemy(2 * 32, 17 * 32, KNIGHT);
+        addEnemy(3 * 32, 17 * 32, WOLF);
         loadEnemyImgs();
     }
 
     public void update() {
         for (Enemy e : enemies) {
-            if (isNextTileRoad(e)) {
-                // move enemy
-            }
+            updateEnemyMove(e);
         }
     }
 
-    public boolean isNextTileRoad(Enemy e) {
-        //e pos
-        //e dir
+    public void updateEnemyMove(Enemy e) {
+        if (e.getLastDir() == -1) {
+            setNewDirectionAndMove(e);
+        }
+
         int newX = (int)(e.getX() + getSpeedAndWidth(e.getLastDir()));
         int newY = (int)(e.getY() + getSpeedAndHeight(e.getLastDir()));
 
@@ -47,8 +51,6 @@ public class EnemyManager {
             setNewDirectionAndMove(e);
             // find new direction
         }
-
-        return false;
     }
 
     private void setNewDirectionAndMove(Enemy e) {
@@ -127,8 +129,25 @@ public class EnemyManager {
         };
     }
 
-    public void addEnemy(int x, int y) {
-        enemies.add(new Enemy(x, y, 0, 0));
+    public void addEnemy(int x, int y, int enemyType) {
+        switch (enemyType) {
+            case ORC:
+                enemies.add(new Orc(x, y, 0));
+
+                break;
+            case BAT:
+                enemies.add(new Bat(x, y, 0));
+
+                break;
+            case KNIGHT:
+                enemies.add(new Knight(x, y, 0));
+
+                break;
+            case WOLF:
+                enemies.add(new Wolf(x, y, 0));
+
+                break;
+        }
     }
 
     public void draw(Graphics g) {
@@ -138,14 +157,14 @@ public class EnemyManager {
     }
 
     public void drawEnemy(Enemy enemy, Graphics g) {
-        g.drawImage(enemyImgs[0], (int)enemy.getX(), (int)enemy.getY(), null);
+        g.drawImage(enemyImgs[enemy.getEnemyType()], (int)enemy.getX(), (int)enemy.getY(), null);
     }
 
     public void loadEnemyImgs() {
         BufferedImage atlas = LoadSave.getSpriteAtlas();
-        enemyImgs[0] = atlas.getSubimage(0,32,32,32);
-        enemyImgs[1] = atlas.getSubimage(32,32,32,32);
-        enemyImgs[2] = atlas.getSubimage(2 * 32,32,32,32);
-        enemyImgs[3] = atlas.getSubimage(3 * 32,32,32,32);
+
+        for(int i = 0; i < 4; i++) {
+            enemyImgs[i] = atlas.getSubimage(i * 32,32,32,32);
+        }
     }
 }
