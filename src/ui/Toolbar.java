@@ -19,7 +19,7 @@ public class Toolbar extends Bar {
     private Tile selectedTile;
     private Editing editing;
     private MyButton buttonPathStart, buttonPathEnd;
-    private BufferedImage pathStart, pathEnd;
+    private BufferedImage pathStartImg, pathEndImg;
     private Map<MyButton, ArrayList<Tile>> map = new HashMap<MyButton, ArrayList<Tile>>();
 
     private MyButton buttonGrass, buttonWater, buttonRoadStraight, buttonRoadCorners, buttonWaterCorners,
@@ -35,8 +35,8 @@ public class Toolbar extends Bar {
     }
 
     private void initPathImages() {
-        pathStart = LoadSave.getSpriteAtlas().getSubimage(7 * 32, 2 * 32, 32, 32);
-        pathEnd = LoadSave.getSpriteAtlas().getSubimage(8 * 32, 2 * 32, 32, 32);
+        pathStartImg = LoadSave.getSpriteAtlas().getSubimage(7 * 32, 2 * 32, 32, 32);
+        pathEndImg = LoadSave.getSpriteAtlas().getSubimage(8 * 32, 2 * 32, 32, 32);
     }
 
     public void draw(Graphics g) {
@@ -87,8 +87,8 @@ public class Toolbar extends Bar {
         buttonMenu.draw(g);
         buttonSave.draw(g);
 
-        drawPathButtons(g, buttonPathStart, pathStart);
-        drawPathButtons(g, buttonPathEnd, pathEnd);
+        drawPathButtons(g, buttonPathStart, pathStartImg);
+        drawPathButtons(g, buttonPathEnd, pathEndImg);
 
         drawNormalButton(g, buttonGrass);
         drawNormalButton(g, buttonWater);
@@ -161,10 +161,10 @@ public class Toolbar extends Bar {
         selectedTile = editing.getGame().getTileManager().getTile(buttonGrass.getId());
         editing.setSelectedTile(selectedTile);
         } else if (buttonPathStart.getBounds().contains(x, y)) {
-            selectedTile = new Tile(pathStart, -1, -1);
+            selectedTile = new Tile(pathStartImg, -1, -1);
             editing.setSelectedTile(selectedTile);
         } else if (buttonPathEnd.getBounds().contains(x, y)) {
-            selectedTile = new Tile(pathEnd, -2, -2);
+            selectedTile = new Tile(pathEndImg, -2, -2);
             editing.setSelectedTile(selectedTile);
         } else {
             for (MyButton button : map.keySet()) {
@@ -251,5 +251,13 @@ public class Toolbar extends Bar {
         for (MyButton button : map.keySet()) {
             button.resetBooleans();
         }
+    }
+
+    public BufferedImage getPathStartImg() {
+        return pathStartImg;
+    }
+
+    public BufferedImage getPathEndImg() {
+        return pathEndImg;
     }
 }

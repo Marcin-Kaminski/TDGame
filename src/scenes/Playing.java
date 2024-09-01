@@ -3,10 +3,12 @@ package scenes;
 import helperMethods.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import objects.PathPoint;
 import ui.ActionBar;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -15,17 +17,21 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar bottomBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private PathPoint start, end;
 
     public Playing(Game game) {
         super(game);
         bottomBar = new ActionBar(0, 640, 640, 160, this);
         loadDefaultLevel();
 
-        enemyManager = new EnemyManager(this);
+        enemyManager = new EnemyManager(this, start, end);
     }
 
     private void loadDefaultLevel() {
         lvl = LoadSave.GetLevelData("new_level");
+        ArrayList<PathPoint> points = LoadSave.getLevelPathPoints("new_level");
+        start = points.get(0);
+        end = points.get(1);
     }
 
     @Override
@@ -60,7 +66,14 @@ public class Playing extends GameScene implements SceneMethods {
     public int getTileType(int x, int y) {
         int xCord = x / 32;
         int yCord = y / 32;
-//z
+
+        if (xCord < 0 || xCord > 19) {
+            return 0;
+        }
+        if (yCord < 0 || yCord > 19) {
+            return 0;
+        }
+
 
         int id = lvl[y / 32][x / 32];
         return game.getTileManager().getTile(id).getTileType();
