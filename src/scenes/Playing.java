@@ -3,11 +3,11 @@ package scenes;
 import helperMethods.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.TowerManager;
 import objects.PathPoint;
 import ui.ActionBar;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Playing extends GameScene implements SceneMethods {
@@ -17,6 +17,7 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar bottomBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
     private PathPoint start, end;
 
     public Playing(Game game) {
@@ -25,6 +26,7 @@ public class Playing extends GameScene implements SceneMethods {
         loadDefaultLevel();
 
         enemyManager = new EnemyManager(this, start, end);
+        towerManager = new TowerManager(this);
     }
 
     private void loadDefaultLevel() {
@@ -34,11 +36,18 @@ public class Playing extends GameScene implements SceneMethods {
         end = points.get(1);
     }
 
+    public void update() {
+        updateTick();
+        enemyManager.update();
+        towerManager.update();
+    }
+
     @Override
     public void render(Graphics g) {
         DrawLevel(g);
         bottomBar.draw(g);
         enemyManager.draw(g);
+        towerManager.draw(g);
     }
 
     public void setLevel(int[][] lvl) {
@@ -56,11 +65,6 @@ public class Playing extends GameScene implements SceneMethods {
                 };
             }
         }
-    }
-
-    public void update() {
-        updateTick();
-        enemyManager.update();
     }
 
     public int getTileType(int x, int y) {
