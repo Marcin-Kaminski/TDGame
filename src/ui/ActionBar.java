@@ -1,5 +1,6 @@
 package ui;
 
+import objects.Tower;
 import scenes.Playing;
 
 import java.awt.*;
@@ -12,6 +13,9 @@ public class ActionBar extends Bar {
     private Playing playing;
     private MyButton buttonMenu;
 
+    private MyButton[] towerButtons;
+    private Tower selectedTower;
+
     public ActionBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -21,6 +25,17 @@ public class ActionBar extends Bar {
 
     private void initButtons() {
         buttonMenu = new MyButton("Menu", 2, 642, 100, 30);
+
+        towerButtons = new MyButton[3];
+        int width = 50;
+        int height = 50;
+        int xStart = 110;
+        int yStart = 650;
+        int xOffset = (int) (width * 1.1);
+
+        for (int i = 0; i < towerButtons.length; i++) {
+            towerButtons[i] = new MyButton("", xStart + xOffset * i, yStart, width, height, i);
+        }
     }
 
     public void draw(Graphics g) {
@@ -32,29 +47,64 @@ public class ActionBar extends Bar {
 
     public void drawButtons(Graphics g) {
         buttonMenu.draw(g);
+        for (MyButton button : towerButtons) {
+            g.setColor(Color.gray);
+            g.fillRect(button.x, button.y, button.width, button.height);
+            g.drawImage(playing.getTowerManager().getTowerImgs()[button.getId()], button.x, button.y, button.width, button.height, null);
+
+            drawButtonFeedback(g, button);
+        }
     }
 
     public void mouseClicked(int x, int y) {
         if (buttonMenu.getBounds().contains(x, y)) {
             SetGameState(MENU);
+        } else {
+            for (MyButton button : towerButtons) {
+                if (button.getBounds().contains(x, y)) {
+                    selectedTower = new Tower(0,0, -1, button.getId());
+                    playing.setSelectedTower(selectedTower);
+                    return;
+                }
+            }
         }
     }
 
     public void mouseMoved(int x, int y) {
         buttonMenu.setMouseOver(false);
+        for (MyButton button : towerButtons) {
+            button.setMouseOver(false);
+        }
 
         if (buttonMenu.getBounds().contains(x, y)) {
             buttonMenu.setMouseOver(true);
+        } else {
+            for (MyButton button : towerButtons) {
+                if (button.getBounds().contains(x, y)) {
+                    button.setMouseOver(true);
+                    return;
+                }
+            }
         }
     }
 
     public void mousePressed(int x, int y) {
         if (buttonMenu.getBounds().contains(x, y)) {
             buttonMenu.setMousePressed(true);
+        } else {
+            for (MyButton button : towerButtons) {
+                if (button.getBounds().contains(x, y)) {
+                    button.setMousePressed(true);
+                    return;
+                }
+            }
         }
     }
 
     public void mouseReleased(int x, int y) {
         buttonMenu.resetBooleans();
+        for (MyButton button : towerButtons) {
+            button.resetBooleans();
+        }
     }
 }

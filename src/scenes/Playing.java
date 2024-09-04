@@ -3,9 +3,12 @@ package scenes;
 import helperMethods.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.TileManager;
 import managers.TowerManager;
 import objects.PathPoint;
+import objects.Tower;
 import ui.ActionBar;
+import static helperMethods.Constants.Tiles.GRASS_TILE;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public class Playing extends GameScene implements SceneMethods {
     private EnemyManager enemyManager;
     private TowerManager towerManager;
     private PathPoint start, end;
+    private Tower selectedTower;
 
     public Playing(Game game) {
         super(game);
@@ -42,12 +46,24 @@ public class Playing extends GameScene implements SceneMethods {
         towerManager.update();
     }
 
+
     @Override
     public void render(Graphics g) {
         DrawLevel(g);
         bottomBar.draw(g);
         enemyManager.draw(g);
         towerManager.draw(g);
+        drawSelectedTower(g);
+    }
+
+    private void drawSelectedTower(Graphics g) {
+        if (selectedTower != null) {
+            g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, null);
+        }
+    }
+
+    public void setSelectedTower(Tower selectedTower) {
+        this.selectedTower = selectedTower;
     }
 
     public void setLevel(int[][] lvl) {
@@ -87,9 +103,17 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseClicked(int x, int y) {
         if (y >= 640) {
             bottomBar.mouseClicked(x, y);
+        } else if (selectedTower != null && isTileGrass(mouseX, mouseY)) {
+            towerManager.addTower(selectedTower, mouseX, mouseY);
+            selectedTower = null;
         }
-//            enemyManager.addEnemy(x, y);
-//        }
+    }
+
+    private boolean isTileGrass(int x, int y) {
+        int id = lvl[y / 32][x / 32];
+        int tileType = game.getTileManager().getTile(id).getTileType();
+
+        return tileType == GRASS_TILE;
     }
 
     @Override
@@ -116,5 +140,9 @@ public class Playing extends GameScene implements SceneMethods {
 
     @Override
     public void mouseDragged(int x, int y) {
+    }
+
+    public TowerManager getTowerManager() {
+        return towerManager;
     }
 }
