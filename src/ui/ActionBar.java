@@ -1,5 +1,6 @@
 package ui;
 
+import helperMethods.Constants;
 import objects.Tower;
 import scenes.Playing;
 
@@ -15,6 +16,7 @@ public class ActionBar extends Bar {
 
     private MyButton[] towerButtons;
     private Tower selectedTower;
+    private Tower displayedTower;
 
     public ActionBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -43,6 +45,26 @@ public class ActionBar extends Bar {
         g.fillRect(x, y, width, height);
 
         drawButtons(g);
+
+        drawDisplayedTower(g);
+    }
+
+    public void displayTower(Tower t) {
+        displayedTower = t;
+    }
+
+    private void drawDisplayedTower(Graphics g) {
+        if (displayedTower != null) {
+            g.setColor(Color.gray);
+            g.fillRect(410, 645, 220, 85);
+            g.setColor(Color.black);
+            g.drawRect(410, 645, 220, 85);
+            g.drawRect(420, 650, 50, 50);
+            g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()], 420, 650, 50, 50, null);
+            g.setFont(new Font("LucidaSans", Font.BOLD, 15));
+            g.drawString(Constants.Towers.getName(displayedTower.getTowerType()), 490, 660);
+            g.drawString("ID: " + displayedTower.getId(), 490, 675);
+        }
     }
 
     public void drawButtons(Graphics g) {

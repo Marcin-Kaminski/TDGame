@@ -17,7 +17,7 @@ public class Playing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
 
-    private ActionBar bottomBar;
+    private ActionBar actionBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
     private TowerManager towerManager;
@@ -26,7 +26,7 @@ public class Playing extends GameScene implements SceneMethods {
 
     public Playing(Game game) {
         super(game);
-        bottomBar = new ActionBar(0, 640, 640, 160, this);
+        actionBar = new ActionBar(0, 640, 640, 160, this);
         loadDefaultLevel();
 
         enemyManager = new EnemyManager(this, start, end);
@@ -50,7 +50,7 @@ public class Playing extends GameScene implements SceneMethods {
     @Override
     public void render(Graphics g) {
         DrawLevel(g);
-        bottomBar.draw(g);
+        actionBar.draw(g);
         enemyManager.draw(g);
         towerManager.draw(g);
         drawSelectedTower(g);
@@ -102,11 +102,24 @@ public class Playing extends GameScene implements SceneMethods {
     @Override
     public void mouseClicked(int x, int y) {
         if (y >= 640) {
-            bottomBar.mouseClicked(x, y);
-        } else if (selectedTower != null && isTileGrass(mouseX, mouseY)) {
-            towerManager.addTower(selectedTower, mouseX, mouseY);
-            selectedTower = null;
+            actionBar.mouseClicked(x, y);
+        } else if (selectedTower != null) {
+            if (isTileGrass(mouseX, mouseY) && getTowerAt(mouseX, mouseY) == null) {
+                towerManager.addTower(selectedTower, mouseX, mouseY);
+                selectedTower = null;
+            }
+        } else {
+            Tower t = getTowerAt(mouseX, mouseY);
+//            if (t == null) {
+//                return;
+//            } else {
+                actionBar.displayTower(t);
+//            }
         }
+    }
+
+    private Tower getTowerAt(int x, int y) {
+        return towerManager.getTowerAt(x, y);
     }
 
     private boolean isTileGrass(int x, int y) {
@@ -119,7 +132,7 @@ public class Playing extends GameScene implements SceneMethods {
     @Override
     public void mouseMoved(int x, int y) {
         if (y >= 640) {
-            bottomBar.mouseMoved(x, y);
+            actionBar.mouseMoved(x, y);
         } else {
             mouseX = (x / 32) * 32;
             mouseY = (y / 32) * 32;
@@ -129,13 +142,13 @@ public class Playing extends GameScene implements SceneMethods {
     @Override
     public void mousePressed(int x, int y) {
         if (y >= 640) {
-            bottomBar.mousePressed(x, y);
+            actionBar.mousePressed(x, y);
         }
     }
 
     @Override
     public void mouseReleased(int x, int y) {
-        bottomBar.mouseReleased(x, y);
+        actionBar.mouseReleased(x, y);
     }
 
     @Override
