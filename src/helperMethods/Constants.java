@@ -29,7 +29,16 @@ public class Constants {
                 case WOLF -> 0.75f;
                 default -> 0;
             };
+        }
 
+        public static int GetStartHealth(int enemyType) {
+            return switch (enemyType) {
+                case ORC -> 100;
+                case BAT -> 60;
+                case KNIGHT -> 250;
+                case WOLF -> 85;
+                default -> 0;
+            };
         }
     }
 
@@ -45,7 +54,35 @@ public class Constants {
                 case WIZARD -> "Wizard";
                 default -> "";
             };
-
         }
+
+        public static int GetDefaultDmg(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 25;
+                case ARCHER -> 15;
+                case WIZARD -> 5;
+                default -> 0;
+            };
+        }
+
+        public static int GetDefaultRange(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 100;
+                case ARCHER -> 100;
+                case WIZARD -> 100;
+                default -> 0;
+            };
+        }
+
+        public static int GetDefaultCooldown(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 10;
+                case ARCHER -> 10;
+                case WIZARD -> 10;
+                default -> 0;
+            };
+        }
+
+
     }
 }

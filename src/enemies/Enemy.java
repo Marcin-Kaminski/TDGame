@@ -1,5 +1,7 @@
 package enemies;
 
+import helperMethods.Constants.Enemies;
+
 import java.awt.*;
 import static helperMethods.Constants.Direction.*;
 
@@ -21,6 +23,9 @@ public abstract class Enemy {
         lastDir = -1;
     }
 
+    protected void setStartHealth() {
+        health = Enemies.GetStartHealth(enemyType);
+    }
     public void move(float speed, int dir) {
         lastDir = dir;
         switch (dir) {
