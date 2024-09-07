@@ -19,6 +19,7 @@ public class EnemyManager {
     public ArrayList<Enemy> enemies = new ArrayList<>();
 //    private float speed = 0.5f;
     private PathPoint start, end;
+    private int hpBarWidth = 20;
 
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end) {
@@ -159,7 +160,17 @@ public class EnemyManager {
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
             drawEnemy(e, g);
+            drawHealthBar(e, g);
         }
+    }
+
+    public void drawHealthBar(Enemy e, Graphics g) {
+        g.setColor(Color.red);
+        g.fillRect((int)e.getX() + 16 - (getNewBarWidth(e) / 2), (int)e.getY() - 10, getNewBarWidth(e), 3);
+    }
+
+    private int getNewBarWidth(Enemy e) {
+        return (int) (hpBarWidth * e.getHealthBarFloat());
     }
 
     public void drawEnemy(Enemy enemy, Graphics g) {
