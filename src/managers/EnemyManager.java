@@ -36,7 +36,9 @@ public class EnemyManager {
 
     public void update() {
         for (Enemy e : enemies) {
-            updateEnemyMove(e);
+            if (e.isAlive()) {
+                updateEnemyMove(e);
+            }
         }
     }
 
@@ -159,8 +161,10 @@ public class EnemyManager {
 
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
-            drawEnemy(e, g);
-            drawHealthBar(e, g);
+            if (e.isAlive()) {
+                drawEnemy(e, g);
+                drawHealthBar(e, g);
+            }
         }
     }
 
@@ -183,5 +187,9 @@ public class EnemyManager {
         for(int i = 0; i < 4; i++) {
             enemyImgs[i] = atlas.getSubimage(i * 32,32,32,32);
         }
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 }

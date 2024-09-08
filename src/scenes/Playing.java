@@ -171,4 +171,8 @@ public class Playing extends GameScene implements SceneMethods {
     public TowerManager getTowerManager() {
         return towerManager;
     }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
 }
