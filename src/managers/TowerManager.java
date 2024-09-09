@@ -53,7 +53,7 @@ public class TowerManager {
             for (Enemy e : playing.getEnemyManager().getEnemies()) {
                 if (e.isAlive()) {
                     if (isEnemyInRange(t, e)) {
-                        e.hurt(1);
+                        playing.shootEnemy(t, e);
                         // shoot enemy
                     } else {
                         // do nothing
