@@ -54,18 +54,36 @@ public class ProjectileManager {
             ySpeed *=-1;
         }
 
-        projectiles.add(new Projectile(t.getX()+16, t.getY()+16, xSpeed, ySpeed, proj_id++, type));
+        projectiles.add(new Projectile(t.getX()+16, t.getY()+16, xSpeed, ySpeed, t.getDmg(), proj_id++, type));
     }
 
     public void update() {
         for (Projectile p : projectiles) {
-            p.move();
+            if (p.isActive()) {
+                p.move();
+                if (isProjHittingEnemy(p)) {
+                    p.setActive(false);
+                }
+            }
         }
+    }
+
+    private boolean isProjHittingEnemy(Projectile p) {
+        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+            if (e.getBounds().contains(p.getPos())) {
+                e.hurt(p.getDmg());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void draw(Graphics g) {
         for (Projectile p : projectiles) {
-            g.drawImage(proj_imgs[p.getProjectileType()], (int)p.getPos().x, (int)p.getPos().y, null);
+            if (p.isActive()) {
+                g.drawImage(proj_imgs[p.getProjectileType()], (int)p.getPos().x, (int)p.getPos().y, null);
+            }
         }
     }
 

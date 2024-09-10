@@ -17,6 +17,48 @@ public class Constants {
         }
     }
 
+    public static class Towers {
+        public static final int CANNON = 0;
+        public static final int ARCHER = 1;
+        public static final int WIZARD = 2;
+
+        public static String getName(int towerType) {
+            return switch (towerType) {
+                case CANNON -> "Cannon";
+                case ARCHER -> "Archer";
+                case WIZARD -> "Wizard";
+                default -> "";
+            };
+        }
+
+        public static int GetDefaultDmg(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 25;
+                case ARCHER -> 15;
+                case WIZARD -> 5;
+                default -> 0;
+            };
+        }
+
+        public static float GetDefaultRange(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 100;
+                case ARCHER -> 100;
+                case WIZARD -> 100;
+                default -> 0;
+            };
+        }
+
+        public static int GetDefaultCooldown(int towerType) {
+            return switch (towerType) {
+                case CANNON -> 10;
+                case ARCHER -> 10;
+                case WIZARD -> 10;
+                default -> 0;
+            };
+        }
+    }
+
     public static class Direction {
         public static final int LEFT = 0;
         public static final int UP = 1;
@@ -55,49 +97,5 @@ public class Constants {
                 default -> 0;
             };
         }
-    }
-
-    public static class Towers {
-        public static final int CANNON = 0;
-        public static final int ARCHER = 1;
-        public static final int WIZARD = 2;
-
-        public static String getName(int towerType) {
-            return switch (towerType) {
-                case CANNON -> "Cannon";
-                case ARCHER -> "Archer";
-                case WIZARD -> "Wizard";
-                default -> "";
-            };
-        }
-
-        public static int GetDefaultDmg(int towerType) {
-            return switch (towerType) {
-                case CANNON -> 25;
-                case ARCHER -> 15;
-                case WIZARD -> 5;
-                default -> 0;
-            };
-        }
-
-        public static int GetDefaultRange(int towerType) {
-            return switch (towerType) {
-                case CANNON -> 100;
-                case ARCHER -> 100;
-                case WIZARD -> 100;
-                default -> 0;
-            };
-        }
-
-        public static int GetDefaultCooldown(int towerType) {
-            return switch (towerType) {
-                case CANNON -> 10;
-                case ARCHER -> 10;
-                case WIZARD -> 10;
-                default -> 0;
-            };
-        }
-
-
     }
 }

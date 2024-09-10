@@ -4,8 +4,8 @@ import helperMethods.Constants.Towers;
 
 public class Tower {
 
-    public int x, y, id, towerType;
-    private float dmg, range, cooldown;
+    public int x, y, id, towerType, cdTick, dmg;
+    private float range, cooldown;
 
     public Tower(int x, int y, int id, int towerType) {
         this.x = x;
@@ -15,6 +15,18 @@ public class Tower {
         setDefaultDmg();
         setDefaultRange();
         setDefaultCooldown();
+    }
+
+    public void update() {
+        cdTick++;
+    }
+
+    public boolean isCooldownOver() {
+        return cdTick >= cooldown;
+    }
+
+    public void resetCooldown() {
+        cdTick = 0;
     }
 
     private void setDefaultDmg() {
@@ -61,7 +73,7 @@ public class Tower {
         this.y = y;
     }
 
-    public float getDmg() {
+    public int getDmg() {
         return dmg;
     }
 
